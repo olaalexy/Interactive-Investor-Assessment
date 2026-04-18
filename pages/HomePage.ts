@@ -21,6 +21,10 @@ class HomePage extends BasePage {
     await this.open("/login");
   }
 
+  async clickLoginLink(): Promise<void>{
+    await this.click(this.signupLoginLink);
+  }
+
   async goToProducts(): Promise<void> {
     await this.click(this.productsLink);
   }
