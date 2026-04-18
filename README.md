@@ -286,7 +286,6 @@ Tests the complete new user registration and first login flow:
 - User enters new account registration details
 - System creates account and shows confirmation
 - User is automatically logged in after account creation
-- ✅ **Login is tested here** as part of the registration completion flow
 
 **Automated Steps**:
 ```gherkin
@@ -307,7 +306,6 @@ Tests authenticated user product discovery:
 - User navigates to products page
 - User searches for specific product
 - Search results display correctly
-- ✅ **Login is tested here** as prerequisite to product search
 
 **Automated Steps**:
 ```gherkin
@@ -326,7 +324,6 @@ Tests shopping cart functionality:
 - User navigates to products page
 - User adds product to cart
 - Cart displays added item correctly
-- ✅ **Login is tested here** as prerequisite to cart operations
 
 **Automated Steps**:
 ```gherkin
@@ -346,7 +343,6 @@ Tests the complete purchase flow:
 - User proceeds through checkout
 - User completes payment details
 - Order is successfully placed
-- ✅ **Login is tested here** as prerequisite to checkout
 
 **Automated Steps**:
 ```gherkin
