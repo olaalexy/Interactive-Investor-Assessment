@@ -27,6 +27,47 @@ This automation framework is designed to test critical user journeys on the Auto
 - Shopping cart functionality
 - Checkout process
 
+## Selected User Journeys
+
+### Six important user journeys identified
+After reviewing the site, the following six journeys were identified as the most business-critical and regression-worthy flows:
+
+1. **User registration**
+   - A new user creates an account successfully.
+2. **User login**
+   - An existing user authenticates and accesses their account.
+3. **Product browsing and search**
+   - A user finds a product through the catalogue/search experience.
+4. **Add product to cart**
+   - A user adds a selected product to the shopping cart.
+5. **Checkout and order placement**
+   - A user completes checkout and confirms a purchase.
+6. **Cart verification / cart persistence**
+   - A user reviews the cart and confirms the correct product is present.
+
+   ---
+
+## Why These Four Journeys Were Automated
+
+These four journeys were selected because together they cover the most important business path through the site while also giving broad automation coverage:
+
+### 1) User registration
+Registration validates that a new customer can enter the platform successfully. It is a high-value entry-point flow and a common regression area because it touches forms, validation, account creation, and authenticated state.
+
+### 2) Product search
+Search is one of the fastest ways for users to locate products. If search fails, product discovery is impacted immediately. This journey validates core catalogue usability.
+
+### 3) Add to cart
+Adding a product to cart is a fundamental retail action. This flow confirms product interaction, cart updates, and user intent progression toward conversion.
+
+### 4) Checkout
+Checkout is the most commercially critical path because it validates the end-to-end purchase flow. It confirms the system can take a user from product selection through order placement.
+
+### Why login was not separated as a standalone automated journey
+Login is still functionally covered because several implemented scenarios rely on an authenticated user, but the explicit standalone automation focus was placed on journeys with broader end-to-end business value.
+
+---
+
 ### Technology Stack
 
 - **WebdriverIO**: A next-gen browser automation framework
