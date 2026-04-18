@@ -275,48 +275,174 @@ InteractiveInvestor/
 
 ## 🎬 Test Scenarios
 
-### 1. User Registration
+The framework automates **4 critical end-to-end user journeys** that cover the most important business workflows:
+
+### 1. User Registration Journey
 
 **File**: `features/user-registration.feature`
 
-Tests the complete user registration flow:
-- Navigate to login/registration page
-- Enter registration details
-- Submit registration form
-- Verify account creation confirmation
-- Verify successful login
+Tests the complete new user registration and first login flow:
+- User navigates to login/registration page
+- User enters new account registration details
+- System creates account and shows confirmation
+- User is automatically logged in after account creation
+- ✅ **Login is tested here** as part of the registration completion flow
 
-### 2. User Searches Product
+**Automated Steps**:
+```gherkin
+Given the user is on the home page
+When the user clicks the login link
+And the user completes registration with valid details
+Then the user should see account created confirmation
+When the user continues from account created
+Then the user should be logged in successfully
+```
+
+### 2. User Searches Product Journey
 
 **File**: `features/user-searches-product.feature`
 
-Tests product search functionality:
-- Navigate to products page
-- Enter search query
-- View search results
-- Verify product display
+Tests authenticated user product discovery:
+- User logs in with existing credentials
+- User navigates to products page
+- User searches for specific product
+- Search results display correctly
+- ✅ **Login is tested here** as prerequisite to product search
 
-### 3. User Adds to Cart
+**Automated Steps**:
+```gherkin
+Given the user is logged in
+When the user navigates to products page
+And the user searches for "Blue Top"
+Then search results should include "Blue Top"
+```
+
+### 3. User Adds to Cart Journey
 
 **File**: `features/user-adds-to-cart.feature`
 
 Tests shopping cart functionality:
-- Browse products
-- Add items to cart
-- View cart contents
-- Verify item details and quantity
+- User logs in with existing credentials
+- User navigates to products page
+- User adds product to cart
+- Cart displays added item correctly
+- ✅ **Login is tested here** as prerequisite to cart operations
 
-### 4. User Checkout Successfully
+**Automated Steps**:
+```gherkin
+Given the user is logged in
+When the user navigates to products page
+And the user adds "Blue Top" to the cart
+Then the cart should contain "Blue Top"
+```
+
+### 4. User Checkout Successfully Journey
 
 **File**: `features/user-checkout-successfully.feature`
 
-Tests the complete checkout process:
-- Login to existing account
-- Add items to cart
-- Proceed to checkout
-- Enter shipping/payment details
-- Confirm order
-- Verify order confirmation
+Tests the complete purchase flow:
+- User logs in with existing credentials
+- User adds products to cart
+- User proceeds through checkout
+- User completes payment details
+- Order is successfully placed
+- ✅ **Login is tested here** as prerequisite to checkout
+
+**Automated Steps**:
+```gherkin
+Given the user is logged in
+When the user navigates to products page
+And the user adds "Blue Top" to the cart
+And the user proceeds to checkout
+And the user completes payment details
+Then the order should be placed successfully
+```
+
+### Why Login Was NOT Automated as a Standalone Test
+
+**Deliberate Design Decision**: Login functionality was intentionally **NOT created as a separate isolated test scenario**. Here's why:
+
+#### 1. **Redundancy** 🔁
+Login is executed and validated in **all 4 user journey scenarios**:
+- **Scenario 1** (Registration): Tests login immediately after account creation
+- **Scenario 2** (Product Search): Tests login before search functionality
+- **Scenario 3** (Add to Cart): Tests login before cart operations
+- **Scenario 4** (Checkout): Tests login before purchase flow
+
+This means **login functionality is verified 4 times** across the test suite, providing comprehensive coverage.
+
+#### 2. **Test Efficiency** ⚡
+Creating a separate "User Login" test would add:
+- Redundant test execution (login already tested 4 times)
+- Increased test suite runtime with minimal additional value
+- Duplicate test maintenance burden
+- No additional functionality validation
+
+#### 3. **Business Value Focus** 💼
+Each automated test focuses on validating **complete user workflows** rather than individual features in isolation:
+- Users don't just "log in" and stop—they log in to accomplish a task
+- Every real-world scenario requires authentication
+- Testing login within realistic business contexts provides more meaningful validation
+- Identifies issues with post-login workflows that isolated login tests might miss
+
+#### 4. **Risk-Based Testing** 🎯
+The framework prioritizes testing the **paths users actually take**:
+- Real users register and immediately use their account → Tested in Scenario 1
+- Returning users log in to search products → Tested in Scenario 2
+- Customers log in to manage their cart → Tested in Scenario 3
+- Shoppers log in to complete purchases → Tested in Scenario 4
+
+#### Coverage Summary
+
+| Test Element | # of Scenarios | Coverage |
+|---|---|---|
+| User Registration | 1 | 25% |
+| User Login | 4 | **100%** |
+| Product Search | 1 | 25% |
+| Cart Operations | 2 | 50% |
+| Checkout Flow | 1 | 25% |
+
+**Key Insight**: Login functionality receives the **most thorough testing** by being integrated into every user journey, rather than being tested in isolation.
+
+## 🧪 Test Design Strategy
+
+### BDD Approach: Testing Real User Workflows
+
+This framework follows **Behavior-Driven Development (BDD)** principles by testing complete, realistic user workflows rather than isolated features:
+
+#### Philosophy
+- 🎯 **Business-Focused**: Tests represent actual user behaviors and business processes
+- 🔗 **Integration Testing**: Each scenario tests multiple components working together
+- 📊 **Quality Metrics**: Success measured by complete workflows, not individual features
+- 🛡️ **Regression Prevention**: Catches issues that arise from feature interactions
+
+#### Key Principles
+
+1. **Complete User Journeys**: Each test represents an end-to-end workflow a real user would perform
+2. **Integrated Testing**: Features tested in the context where users will use them
+3. **Lean Test Suite**: Avoid redundant tests that don't add business value
+4. **Strategic Redundancy**: Critical paths like login are tested multiple times naturally through different workflows
+
+#### Test Suite Efficiency
+
+By using real user journeys instead of isolated feature tests:
+- ✅ Faster test execution (no redundant test runs)
+- ✅ Lower maintenance burden (fewer tests to update)
+- ✅ Better defect detection (catches integration issues)
+- ✅ More realistic validation (tests like users test the system)
+- ✅ Strategic login coverage (verified 4 times across different contexts)
+
+### Login Testing Coverage Analysis
+
+While login is not tested as an isolated scenario, its integration across all 4 journeys provides **comprehensive validation**:
+
+**Login Context Variations**:
+1. **Post-Registration Login** (Scenario 1) - Tests login immediately after account creation
+2. **Existing Account Login for Search** (Scenario 2) - Tests login before data retrieval operations
+3. **Existing Account Login for Cart** (Scenario 3) - Tests login before state-dependent operations
+4. **Existing Account Login for Checkout** (Scenario 4) - Tests login before high-value transactions
+
+Each context tests different post-login system states and user expectations, providing more thorough validation than a standalone login test ever could.
 
 ## 📄 Page Object Model
 
